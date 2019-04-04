@@ -1,4 +1,4 @@
-.libPaths("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/packages/")
+.libPaths("~/KP/RShiny/packages/")
 
 library(xml2)
 library(GEOquery)
@@ -27,13 +27,13 @@ while ( TRUE ) {
         data <- merge(data,featureData, by = "ID")
         
         name = attr(gse, "names")[[1]]
-        save(data, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id,"/", name,"-expr-data.rda"))
+        save(data, file = paste0("~/KP/RShiny/GEOdata/",geo_id,"/", name,"-expr-data.rda"))
         
         # phenotypic data: column characteristics_ch1.1 contains age; row names are sample names; 
         head(pData(gse[[1]])[, 1:25])
         # title; type; source_name; characteristics_ch1.1 (age)
         phenoData <-pData(phenoData(gse[[1]]))[1:5,c(1,6,8,11)]
-        save(phenoData, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id,"/",name,"-pheno-data.rda"))
+        save(phenoData, file = paste0("~/KP/RShiny/GEOdata/",geo_id,"/",name,"-pheno-data.rda"))
         
         
     } #** <--
@@ -50,13 +50,13 @@ while ( TRUE ) {
         data <- merge(data,featureData, by = "ID")
         
         name = attr(gse, "names")[[x]]
-        save(data, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id,"/",name,"-expr-data.rda"))
+        save(data, file = paste0("~/KP/RShiny/GEOdata/",geo_id,"/",name,"-expr-data.rda"))
         
         # phenotypic data: column characteristics_ch1.1 contains age; row names are sample names; 
         head(pData(gse[[x]])[, 1:25])
         # title; type; source_name; characteristics_ch1.1 (age)
         phenoData <-pData(phenoData(gse[[x]]))[1:5,c(1,6,8,11)]
-        save(phenoData, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id,"/",name,"-pheno-data.rda"))
+        save(phenoData, file = paste0("~/KP/RShiny/GEOdata/",geo_id,"/",name,"-pheno-data.rda"))
         }
       
     } #* <--
@@ -65,7 +65,3 @@ while ( TRUE ) {
 } # closing while bracket
 
 #gse <- getGEO("GSE61578",GSEMatrix=TRUE)
-
-
-
-
