@@ -27,7 +27,7 @@ cels = list.files("data/", pattern = "CEL")
 # sometiles, it is 'CEL', you need to check it first
 
 # Set working directory for normalization
-setwd("/Volumes/target_nbl_ngs/KP/RShiny/GEOdata/to-normalize/data")
+setwd("~/KP/RShiny/GEOdata/to-normalize/data")
 raw.data = ReadAffy(verbose = FALSE, filenames = cels, cdfname = "hgu133acdf")
 
 # perform RMA normalization (log2)
@@ -59,10 +59,6 @@ GSE9807_series_matrix_expr_data <- merge(tt,featureData, by.x = "ProbID", by.y =
 #---------------------------------- Expression matrix Manipulation -------------------------------------#
 # removing ID column
 GSE9807_series_matrix_expr_data <- select(GSE9807_series_matrix_expr_data,-c("ProbID"))
-GSE9807_series_matrix_expr_data$ProbID <- NULL
-
-copy_GSE9807_series_matrix_expr_data <-  GSE9807_series_matrix_expr_data
-GSE9807_series_matrix_expr_data <-  copy_GSE9807_series_matrix_expr_data
 
 cols <- names(GSE9807_series_matrix_expr_data)[1:6]
 setDT(GSE9807_series_matrix_expr_data)[, (cols) := lapply(.SD, as.character), .SDcols = cols]
