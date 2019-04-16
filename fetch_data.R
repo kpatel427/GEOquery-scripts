@@ -1,5 +1,5 @@
 # download GEO data
-.libPaths("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/packages/")
+.libPaths("~/KP/RShiny/packages/")
 
 library(GEOquery)
 library(xml2)
@@ -17,15 +17,15 @@ while ( TRUE ) {
   }
   print(line)
   geo_id <- toupper(line)
-   if(file.exists(paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id) )){
+   if(file.exists(paste0("~/KP/RShiny/GEOdata/",geo_id) )){
      print("Directory exists!") # repetitive GSE ID; skip to next one
    }
    else {
-  dir.create(file.path("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/", geo_id)) # create directory
-  gse <- getGEO(geo_id, GSEMatrix=TRUE, destdir = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id) )
+  dir.create(file.path("~/KP/RShiny/GEOdata/", geo_id)) # create directory
+  gse <- getGEO(geo_id, GSEMatrix=TRUE, destdir = paste0("~/KP/RShiny/GEOdata/",geo_id) )
   
   # fetching supplimental files
-  getGEOSuppFiles(geo_id, makeDirectory = TRUE, baseDir = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/",geo_id),
+  getGEOSuppFiles(geo_id, makeDirectory = TRUE, baseDir = paste0("~/KP/RShiny/GEOdata/",geo_id),
                     fetch_files = TRUE, filter_regex = NULL)
   print(paste0("Supplimental Data download finished for ",geo_id))
   }
