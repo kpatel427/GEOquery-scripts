@@ -1,4 +1,4 @@
-.libPaths("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/packages/")
+.libPaths("~/KP/RShiny/packages/")
 
 #install.packages("data.table", repos='http://cran.us.r-project.org')
 
@@ -40,14 +40,14 @@ while ( TRUE ) {
         
         name = attr(gse, "names")[[1]]
         print("Saving expr data...")
-        save(data, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/in-process/",geo_id,"/", name,"-expr-data.Rdata"))
+        save(data, file = paste0("~/KP/RShiny/GEOdata/in-process/",geo_id,"/", name,"-expr-data.Rdata"))
         
         # phenotypic data: column characteristics_ch1.1 contains age; row names are sample names; 
         head(pData(gse[[1]])[, 1:25])
         # title; type; source_name; characteristics_ch1.1 (age)
         phenoData <-pData(phenoData(gse[[1]]))[1:5,c(1,6,8,11)]
         print("Saving pheno data...")
-        save(phenoData, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-pheno-data.RData"))
+        save(phenoData, file = paste0("~/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-pheno-data.RData"))
         
         
     } #** <--
@@ -69,14 +69,14 @@ while ( TRUE ) {
         
         name = attr(gse, "names")[[x]]
         print("Saving expr data...")
-        save(data, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-expr-data.RData"))
+        save(data, file = paste0("~/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-expr-data.RData"))
         
         # phenotypic data: column characteristics_ch1.1 contains age; row names are sample names; 
         head(pData(gse[[x]])[, 1:25])
         # title; type; source_name; characteristics_ch1.1 (age)
         phenoData <-pData(phenoData(gse[[x]]))[1:5,c(1,6,8,11)]
         print("Saving pheno data...")
-        save(phenoData, file = paste0("/mnt/isilon/maris_lab/target_nbl_ngs/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-pheno-data.RData"))
+        save(phenoData, file = paste0("~/KP/RShiny/GEOdata/in-process/",geo_id,"/",name,"-pheno-data.RData"))
         }
       
     } #* <--
