@@ -23,16 +23,16 @@ library(stringr)
 getGEOSuppFiles("GSE16476")
 #---------------------------------- untar and RMA normalization -------------------------------------#
 
-untar("GSE16476_RAW.tar", exdir = "data")
-cels = list.files("data/", pattern = "CEL")
+untar("GSE17714_RAW.tar", exdir = "data")
+cels = list.files("data/", pattern = "CEL|cel")
 # sometiles, it is 'CEL', you need to check it first
 sapply(paste("data", cels, sep = "/"), gunzip)
 
-cels = list.files("data/", pattern = "CEL")
+cels = list.files("data/", pattern = "CEL|cel")
 # sometiles, it is 'CEL', you need to check it first
 
 # Set working directory for normalization
-setwd("~/KP/RShiny/GEOdata/to-normalize/GSE16476/GSE16476/data")
+setwd("/Volumes/target_nbl_ngs/KP/RShiny/GEOdata/GSE17714/GSE17714/data")
 
 ### for Affy package
 raw.data = ReadAffy(verbose = FALSE, filenames = cels, cdfname = "hgu133acdf")
@@ -54,42 +54,41 @@ tt = cbind(row.names(rma), rma)
 colnames(tt) = c("ProbID", sub(".cel", "", colnames(rma), ignore.case = TRUE))
 
 #### to merge with gene symbols
-geo_id <- "GSE16476"
-gse <- getGEO(geo_id,GSEMatrix=TRUE)
-
-length(gse)
-
 # if featureData has no column called Gene Symbol:
+geo_id <- "GSE17714"
+gse <- getGEO(geo_id,GSEMatrix=TRUE)
 featureData <- as.data.frame(gse[[1]]@featureData@data) # fetching features to get ID and gene symbols
 #featureData <-  setDT(featureData)[,c("V1","Gene Symbol","V2"):= sapply(str_split(featureData$gene_assignment, " // ",  n = 3), `[`, 2)]
 featureData <- setDT(featureData)[,c("ID", "Gene Symbol")]
 #featureData$ID <-  as.character(featureData$ID)
-GSE16476_series_matrix_expr_data <- merge(tt,featureData, by.x = "ProbID", by.y = "ID")
+GSE17714_RMA_data <- merge(tt,featureData, by.x = "ProbID", by.y = "ID")
 
 #colnames(GSE107333_series_matrix_expr_data) <- sub("_exp.*", "", colnames(GSE107333_series_matrix_expr_data))
 
-#---------------------------------- Expression matrix Manipulation -------------------------------------#
-# removing ID column
-GSE16476_series_matrix_expr_data <- select(GSE16476_series_matrix_expr_data,-c("ProbID"))
-#GSE16476_series_matrix_expr_data$ProbID <- NULL
 
-copy_GSE16476_series_matrix_expr_data <-  GSE16476_series_matrix_expr_data
+#---------------------------------- Expression matrix Manipulation -------------------------------------#
+# converting gene symbols to row names and keeping rows with max mean in each row
+# removing ID column
+GSE17714_RMA_data <- select(GSE17714_RMA_data,-c("ProbID"))
+
+
+copy_GSE17714_RMA_data <-  GSE17714_RMA_data
 #GSE16476_series_matrix_expr_data <-  copy_GSE16476_series_matrix_expr_data
 
-cols <- names(GSE16476_series_matrix_expr_data)[1:88]
-setDT(GSE16476_series_matrix_expr_data)[, (cols) := lapply(.SD, as.character), .SDcols = cols]
-setDT(GSE16476_series_matrix_expr_data)[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
+cols <- names(GSE17714_RMA_data)[1:22]
+setDT(GSE17714_RMA_data)[, (cols) := lapply(.SD, as.character), .SDcols = cols]
+setDT(GSE17714_RMA_data)[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
  
 # Since there are duplicated gene symbols -
 # calculating means for every row grouping by the gene; and selecting rows with max mean
-GSE16476_series_matrix_expr_data <- setDT(GSE16476_series_matrix_expr_data)[, .SD[which.max(rowMeans(.SD))], by=`Gene Symbol`]
+GSE17714_RMA_data <- setDT(GSE17714_RMA_data)[, .SD[which.max(rowMeans(.SD))], by=`Gene Symbol`]
 
 # Removing if there are any NA's in Gene Symbols
-GSE16476_series_matrix_expr_data <- GSE16476_series_matrix_expr_data[!(is.na(GSE16476_series_matrix_expr_data$`Gene Symbol`)),]
+GSE17714_RMA_data <- GSE17714_RMA_data[!(is.na(GSE17714_RMA_data$`Gene Symbol`)),]
 
 # converting column to rownames
-GSE16476_series_matrix_expr_data <- GSE16476_series_matrix_expr_data %>% column_to_rownames(var="Gene Symbol")
+GSE17714_RMA_data <- GSE17714_RMA_data %>% column_to_rownames(var="Gene Symbol")
 
 # Saving data
-save(GSE16476_series_matrix_expr_data,file = "GSE16476_expr_data.RData")
+save(GSE17714_RMA_data,file = "GSE17714_RMA_data.RData")
 
