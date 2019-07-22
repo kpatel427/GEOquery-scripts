@@ -32,7 +32,7 @@ cels = list.files("data/", pattern = "CEL|cel")
 # sometiles, it is 'CEL', you need to check it first
 
 # Set working directory for normalization
-setwd("/Volumes/target_nbl_ngs/KP/RShiny/GEOdata/GSE17714/GSE17714/data")
+setwd("./GEOdata/GSE17714/GSE17714/data")
 
 ### for Affy package
 raw.data = ReadAffy(verbose = FALSE, filenames = cels, cdfname = "hgu133acdf")
