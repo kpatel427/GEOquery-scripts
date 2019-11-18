@@ -59,8 +59,8 @@ for(x in files){
   print(x)
   name <- str_split(x,'_')[[1]][1] # saving dataframe by GSM
   
-  #assign(name, read.delim(paste0('/Volumes/target_nbl_ngs/KP/RShiny/new_portal_datasets/GSE100427_SRP110289/',x), header = T))
-  data <- read.delim(paste0('/Volumes/target_nbl_ngs/KP/RShiny/new_portal_datasets/GSE100427_SRP110289/',x), header = T)
+  #assign(name, read.delim(paste0('~/KP/RShiny/new_portal_datasets/GSE100427_SRP110289/',x), header = T))
+  data <- read.delim(paste0('~/KP/RShiny/new_portal_datasets/GSE100427_SRP110289/',x), header = T)
   colnames(data)[6] <- paste0(name,'_TPM')
   colnames(data)[7] <- paste0(name,'_FPKM')
   assign(name, data[,c(1,6,7)])
