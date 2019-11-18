@@ -49,7 +49,7 @@ meta.merge[,1] <-  NULL
 
 
 # -------- expression data
-expr <- read.delim("GSM2682873_CF-00004_RNA.genes.results.txt", header = T)
+expr <- read.delim("GSM2682873_CF_00004_RNA.genes.results.txt", header = T)
 
 # when expression data for each sample is in a seperate file
 files <- list.files(path = '.', pattern = "*.txt")
